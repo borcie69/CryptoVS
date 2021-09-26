@@ -22,10 +22,12 @@
     <ClCompile Include="src\classBlockChain.cpp" />
     <ClCompile Include="src\classBlock.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\classBlockChain.h" />
     <ClInclude Include="src\classBlock.h" />
+    <ClInclude Include="transaction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -93,13 +95,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>C:\dev\libs&amp;incl\crypto++-8.6.0\;$(IncludePath)</IncludePath>
+    <IncludePath>C:\dev\CryptoVS\Blocks\src\includes\cryptopp-8.6.0\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>C:\dev\libs&amp;incl\crypto++-8.6.0\cryptopp\;$(IncludePath)</IncludePath>
+    <IncludePath>C:\dev\CryptoVS\Blocks\src\includes\cryptopp-8.6.0\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,7 +146,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\dev\libs&amp;incl\crypto++-8.6.0\cryptopp\x64\Output\Debug\cryptlib.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\dev\CryptoVS\Blocks\src\includes\cryptopp-8.6.0\cryptopp\x64\Output\Debug\cryptlib.lib</AdditionalDependencies>
       <PreventDllBinding>true</PreventDllBinding>
     </Link>
   </ItemDefinitionGroup>
@@ -165,7 +167,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\dev\libs&amp;incl\crypto++-8.6.0\cryptopp\x64\Output\Release\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\dev\CryptoVS\Blocks\src\includes\cryptopp-8.6.0\cryptopp\x64\Output\Release\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

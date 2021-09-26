@@ -1,12 +1,16 @@
+#include <iostream>
 #include "classBlockChain.h"
 
 blockChain::blockChain()
 {
     block *genesis=new block;
 
-    genesis->genesisBlock();
+    //genesis->genesisBlock();
 
-    allBlocks.push_back(*genesis);
+    if (genesis->validHashCheck())
+    {
+        allBlocks.push_back(*genesis);
+    }
 
     delete genesis;
 }
@@ -18,11 +22,14 @@ block blockChain::lastBlock()
 
 void blockChain::newBlock()
 {
-    block *newBl=new block;
+    block *newBl=new block(lastBlock().getIndex(),lastBlock().getHash());
 
-    newBl->createBlock(lastBlock());
+    //newBl->createBlock(lastBlock());
 
-    allBlocks.push_back(*newBl);
+    if (newBl->validHashCheck())
+    {
+        allBlocks.push_back(*newBl);
+    }
 
     delete newBl;
 }

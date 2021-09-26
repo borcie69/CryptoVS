@@ -10,6 +10,7 @@
 #include "cryptopp/base32.h"
 #include "classBlock.h"
 
+//using cryptopp for sha256
 std::string block::sha256(const std::string str)
 {
     CryptoPP::HexEncoder encoder;
@@ -21,11 +22,11 @@ std::string block::sha256(const std::string str)
     digest.resize(hash.DigestSize());
     hash.Final((CryptoPP::byte*)&digest[0]);
 
-    encoder.Put((CryptoPP::byte *)digest.data(),digest.size());
+    encoder.Put((CryptoPP::byte*)digest.data(),digest.size());
     encoder.MessageEnd();
 
-    CryptoPP::word64 size = encoder.MaxRetrievable();
-    if(size && size <= SIZE_MAX)
+    CryptoPP::word64 size=encoder.MaxRetrievable();
+    if(size && size<=SIZE_MAX)
     {
         s.resize(size);
         encoder.Get((CryptoPP::byte*)&s[0],s.size());
@@ -63,86 +64,97 @@ void block::mining()
         }
     }
     creation();
-    hash=returnHash;
+    this->hash=returnHash;
 }
 
- void block::genesisBlock()
+ //void block::genesisBlock()
+ block::block()
 {
-    nonce=0;
-    index=0;
-    prevHash="";
-    data="Genesis Block";
-    dificulty=0;
+    this->nonce=0;
+    this->index=0;
+    this->prevHash="";
+    this->data="Genesis Block";
+    this->dificulty=0;
     std::string s=joinToString();
     //std::cout<<s<<std::endl; testing
-    hash=sha256(s);
+    this->hash=sha256(s);
     creation();
 }
 
+ block::block(unsigned long long prevIndexfpb, std::string prevHashfpb)
+ {
+     indexing(prevIndexfpb);
+     prevHashing(prevHashfpb);
+     getDificulty();
+     giveData();
+     mining();
+ }
+
 void block::indexing(unsigned long long prevIndex)
 {
-    index=++prevIndex;
+    this->index=++prevIndex;
     //std::cout<<prevIndex<<' '<<index<<std::endl; testing
 }
 
 void block::prevHashing(std::string prevPrevHash)
 {
-    prevHash=prevPrevHash;
+    this->prevHash=prevPrevHash;
     //std::cout<<prevHash<<std::endl; testing
 }
 
 void block::getDificulty()
 {
-    dificulty=4; //ctl
+    this->dificulty=4; //ctl
 }
 
 void block::giveData()
 {
-    data="data"; //ctl
+    this->data="data"; //ctl
 }
 
-void block::createBlock(block prevBlock)
+//void block::createBlock(block prevBlock)
+/*block::block(unsigned long long prevIndexfpb, std::string prevHashfpb)
 {
-    indexing(prevBlock.index);
-    prevHashing(prevBlock.hash);
+    indexing(prevIndexfpb);
+    prevHashing(prevHashfpb);
     getDificulty();
     giveData();
     mining();
-}
+}*/
 
 std::string block::joinToString()
 {
     std::string join;
 
-    join=std::to_string(index)+","
-        +prevHash+","
-        +data+","
-        +std::to_string(dificulty)+","
-        +std::to_string(nonce);
+    join=std::to_string(this->index)+","
+        + this->prevHash+","
+        + this->data+","
+        +std::to_string(this->dificulty)+","
+        +std::to_string(this->nonce);
 
     return join;
 }
 
 void block::blockData()
 {
-    std::cout<<"index: "<<index<<std::endl
-        <<"prevHash: "<<prevHash<<std::endl
-        <<"data: "<<data<<std::endl
-        <<"hash: "<<hash<<std::endl
-        <<"dificulty: "<<dificulty<<std::endl
-        <<"nonce: "<<nonce<<std::endl
-        <<"Time: "<<creationTime<<std::endl<<std::endl;
+    std::cout<<"index: "<<this->index<<std::endl
+        <<"prevHash: "<<this->prevHash<<std::endl
+        <<"data: "<<this->data<<std::endl
+        <<"hash: "<<this->hash<<std::endl
+        <<"dificulty: "<<this->dificulty<<std::endl
+        <<"nonce: "<<this->nonce<<std::endl
+        <<"Time: "<<this->creationTime<<std::endl<<std::endl;
 }
 
 std::string block::makePacket()
 {
-    std::string result=std::to_string(index)+','
-        +prevHash+','
-        +data+','
-        +std::to_string(dificulty)+','
-        +std::to_string(nonce)+','
-        +hash+','
-        +creationTime+';';
+    std::string result=std::to_string(this->index)+','
+        +this->prevHash+','
+        +this->data+','
+        +std::to_string(this->dificulty)+','
+        +std::to_string(this->nonce)+','
+        +this->hash+','
+        +this->creationTime+';';
 
     //int sizeOfData=result.size()*sizeof(std::string);
 
@@ -162,13 +174,13 @@ void block::creation()
     err=_gmtime64_s(&newtime,&ltime);
     if(err)
     {
-        std::cerr<<"Invalid Argument to _gmtime64_s.\n";
+        //write to erroLog
     }
     // Convert to an ASCII representation
     err=asctime_s(buf,26,&newtime);
     if(err)
     {
-        std::cerr<<"Invalid Argument to asctime_s.\n";
+        //write to erroLog
     }
 
     std::string timeString;
@@ -180,7 +192,7 @@ void block::creation()
         +std::to_string(newtime.tm_sec);
     //std::string tString=timeString.str();
 
-    creationTime=timeString;
+    this->creationTime=timeString;
 }
 
 /*void block::createBlock(block *prevBlock)
@@ -193,6 +205,33 @@ void block::creation()
     giveData();
     mining();
 }*/
+
+bool block::validHashCheck()
+{
+    std::string s=this->joinToString();
+
+    std::string tempHash=this->sha256(s);
+
+    if(tempHash!=this->hash)
+    {
+        return false;
+        //write to file
+    }
+    else
+    {
+        return true;
+    }
+}
+
+unsigned long long block::getIndex()
+{
+    return this->index;
+}
+
+std::string block::getHash()
+{
+    return this->hash;
+}
 
 /*block::~block()
 {

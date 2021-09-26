@@ -24,12 +24,18 @@
     <ClCompile Include="src\classBlockChain.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="transaction.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\classBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\classBlockChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
