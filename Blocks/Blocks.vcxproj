@@ -22,12 +22,12 @@
     <ClCompile Include="src\classBlockChain.cpp" />
     <ClCompile Include="src\classBlock.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="transaction.cpp" />
+    <ClCompile Include="src\transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\classBlockChain.h" />
     <ClInclude Include="src\classBlock.h" />
-    <ClInclude Include="transaction.h" />
+    <ClInclude Include="src\transaction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -24,7 +24,7 @@
     <ClCompile Include="src\classBlockChain.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="transaction.cpp">
+    <ClCompile Include="src\transaction.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="src\classBlockChain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="transaction.h">
+    <ClInclude Include="src\transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
