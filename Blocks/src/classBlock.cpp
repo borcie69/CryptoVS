@@ -35,6 +35,7 @@ std::string block::sha256(const std::string str)
     return s;
 }
 
+//CPU mining(optimize)
 void block::mining()
 {
     std::string hashFirst,validHash,returnHash,s,temp;
@@ -104,7 +105,7 @@ void block::prevHashing(std::string prevPrevHash)
 
 void block::getDificulty()
 {
-    this->dificulty=4; //ctl
+    this->dificulty=5; //ctl
 }
 
 void block::giveData()

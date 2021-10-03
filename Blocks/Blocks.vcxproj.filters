@@ -5,38 +5,68 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="cudaMiner">
+      <UniqueIdentifier>{b16ff8ad-e73a-4751-bcd7-ebc440116a5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="blockChain">
+      <UniqueIdentifier>{8c3db3f2-03ef-4c5b-ab08-99c5b55c7965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="blockChain\blockChainP2P">
+      <UniqueIdentifier>{8e2e1b71-bd64-4c40-8a11-b14ee9648bca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\classBlock.cpp">
-      <Filter>Resource Files</Filter>
+    <ClCompile Include="src\cudaMiner.cpp">
+      <Filter>cudaMiner</Filter>
     </ClCompile>
     <ClCompile Include="src\classBlockChain.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>blockChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\classBlock.cpp">
+      <Filter>blockChain</Filter>
     </ClCompile>
     <ClCompile Include="src\transaction.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>blockChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\serverImplementationsP2P.cpp">
+      <Filter>blockChain\blockChainP2P</Filter>
+    </ClCompile>
+    <ClCompile Include="src\receiverImplementationsP2P.cpp">
+      <Filter>blockChain\blockChainP2P</Filter>
+    </ClCompile>
+    <ClCompile Include="src\winsockInit.cpp">
+      <Filter>blockChain\blockChainP2P</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\classBlock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\classBlockChain.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\cudaMiner.h">
+      <Filter>cudaMiner</Filter>
     </ClInclude>
     <ClInclude Include="src\transaction.h">
-      <Filter>Header Files</Filter>
+      <Filter>blockChain</Filter>
     </ClInclude>
+    <ClInclude Include="src\classBlockChain.h">
+      <Filter>blockChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\classBlock.h">
+      <Filter>blockChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\winsockInit.h">
+      <Filter>blockChain\blockChainP2P</Filter>
+    </ClInclude>
+    <ClInclude Include="src\receiverImplementationsP2P.h">
+      <Filter>blockChain\blockChainP2P</Filter>
+    </ClInclude>
+    <ClInclude Include="src\serverImplementationsP2P.h">
+      <Filter>blockChain\blockChainP2P</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="src\cudaMiner.cu">
+      <Filter>cudaMiner</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

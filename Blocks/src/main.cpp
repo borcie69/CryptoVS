@@ -4,41 +4,63 @@
 #include <fstream>
 #include "classBlock.h"
 #include "classBlockChain.h"
+#include "cudaMiner.h"
+#include "serverImplementationsP2P.h"
+#include "receiverImplementationsP2P.h"
 
 int main()
 {
-    //networking for this device, start to listen on port
-    //thisDev *current=new thisDev;
+    //networking
+    server server1;
+    receiver receiver1;
+    //thread to listen for incoming packets
+    std::thread forServer = server1.threadForListening();
+
+    #ifdef CUDA_MINING
+        cudaMiner miner("sdfsdfsdfs");
+        miner.doCuda();
+    #endif
     //std::string PFLoc="../data/blockChain.txt";
     //std::fstream packetFile(PFLoc);
 
     //start blockchain
-    blockChain SomeCoin;
+    blockChain UNIVERSUM;
     std::string packet;
-    //std::thread tl;
 
     //make packet for sending over network
-    packet=SomeCoin.lastBlock().makePacket();
+    packet=UNIVERSUM.lastBlock().makePacket();
     std::cout<<packet<<'\n'; //testing
+
+    char* writable = new char[packet.size() + 1];
+    std::copy(packet.begin(), packet.end(), writable);
+    writable[packet.size()] = '\0';
+
+    receiver1.sendingPacket("192.168.137.194", writable);
+
+    delete[] writable;
     //packetFile.open(PFLoc.c_str(),std::ios_base::app | std::ios_base::in);
     //packetFile<<packet<<'\n'; //make this work
     //packetFile.close();
 
     //printing block data
-    SomeCoin.lastBlock().blockData();
+    UNIVERSUM.lastBlock().blockData();
     //std::cout<<blockChain.size()<<' '<<blockChain.max_size()<<' '<<test.max_size()<<std::endl; //vector data
-    //std::cout<<sizeof(char)<<std::endl;
-
-    //thread for listening for incoming packets
-    //tl=current->acceptingThread();
 
     //generating blocks, improve handling
     while(true)
     {
-        SomeCoin.newBlock();
+        UNIVERSUM.newBlock();
 
-        packet=SomeCoin.lastBlock().makePacket();
+        packet=UNIVERSUM.lastBlock().makePacket();
         std::cout<<packet<< '\n'; //testing
+
+        char* writable = new char[packet.size() + 1];
+        std::copy(packet.begin(), packet.end(), writable);
+        writable[packet.size()] = '\0';
+
+        receiver1.sendingPacket("192.168.137.194",writable);
+
+        delete[] writable;
 
         //packetFile.open(PFLoc.c_str(),std::ios_base::app | std::ios_base::in);
         //packetFile<<packet<<'\n';
@@ -50,7 +72,7 @@ int main()
         //std::cout<<s<<std::endl; //testing
 
         //print block data
-        SomeCoin.lastBlock().blockData();
+        UNIVERSUM.lastBlock().blockData();
     }
 
     return 0;
