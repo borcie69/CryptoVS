@@ -10,70 +10,75 @@
 
 int main()
 {
-    //networking
-    server server1;
-    receiver receiver1;
-    //thread to listen for incoming packets
-    std::thread forServer = server1.threadForListening();
+	//networking
+	//winsockInit wInit;
+	//server server1;
 
-    #ifdef CUDA_MINING
-        cudaMiner miner("sdfsdfsdfs");
-        miner.doCuda();
-    #endif
-    //std::string PFLoc="../data/blockChain.txt";
-    //std::fstream packetFile(PFLoc);
+	//bool sharedForListeining=false; //shared memory between threads
+	//std::thread forServer=server1.threadForListening(&sharedForListeining); //thread to listen for incoming packets
 
-    //start blockchain
-    blockChain UNIVERSUM;
-    std::string packet;
+#ifdef CUDA_MINING
+	cudaMiner miner("sdfsdfsdfs");
+	miner.doCuda();
+#endif
 
-    //make packet for sending over network
-    packet=UNIVERSUM.lastBlock().makePacket();
-    std::cout<<packet<<'\n'; //testing
+	//std::string PFLoc="../data/blockChain.txt";
+	//std::fstream packetFile(PFLoc);
 
-    char* writable = new char[packet.size() + 1];
-    std::copy(packet.begin(), packet.end(), writable);
-    writable[packet.size()] = '\0';
+	blockChain UNIVERSUM; //start blockchain
+	std::string packet;
 
-    receiver1.sendingPacket("192.168.137.194", writable);
+	packet=UNIVERSUM.lastBlock().makePacket(); //make packet for sending over network
+	std::cout<<packet<<'\n'; //testing
 
-    delete[] writable;
-    //packetFile.open(PFLoc.c_str(),std::ios_base::app | std::ios_base::in);
-    //packetFile<<packet<<'\n'; //make this work
-    //packetFile.close();
+	UNIVERSUM.lastBlock().blockData(); //print block data
 
-    //printing block data
-    UNIVERSUM.lastBlock().blockData();
-    //std::cout<<blockChain.size()<<' '<<blockChain.max_size()<<' '<<test.max_size()<<std::endl; //vector data
+	//convert string to char*
+	char *writable=new char[packet.size()+1];
+	std::copy(packet.begin(),packet.end(),writable);
+	writable[packet.size()]='\0';
 
-    //generating blocks, improve handling
-    while(true)
-    {
-        UNIVERSUM.newBlock();
+	//receiver1.sendingPacket("192.168.137.194", writable);
+	receiver *rec=new receiver("127.0.0.1",writable);
+	delete rec;
+	delete[] writable;
 
-        packet=UNIVERSUM.lastBlock().makePacket();
-        std::cout<<packet<< '\n'; //testing
+	//packetFile.open(PFLoc.c_str(),std::ios_base::app | std::ios_base::in);
+	//packetFile<<packet<<'\n'; //make this work
+	//packetFile.close();
 
-        char* writable = new char[packet.size() + 1];
-        std::copy(packet.begin(), packet.end(), writable);
-        writable[packet.size()] = '\0';
+	//std::cout<<blockChain.size()<<' '<<blockChain.max_size()<<' '<<test.max_size()<<std::endl; //vector data
 
-        receiver1.sendingPacket("192.168.137.194",writable);
+	//generating blocks, improve handling
+	while(true)
+	{
+		//std::cout<<sharedForListeining<<'\n';
+		UNIVERSUM.newBlock();
 
-        delete[] writable;
+		packet=UNIVERSUM.lastBlock().makePacket();
+		std::cout<<packet<<'\n'; //testing
 
-        //packetFile.open(PFLoc.c_str(),std::ios_base::app | std::ios_base::in);
-        //packetFile<<packet<<'\n';
-        //packetFile.close();
+		UNIVERSUM.lastBlock().blockData(); //print block data
 
-        //current->sendingPacket(packet);
+		//convert string to char*
+		char *writable=new char[packet.size()+1];
+		std::copy(packet.begin(),packet.end(),writable);
+		writable[packet.size()]='\0';
 
-        //std::string s=blockChain.back().joinToString();
-        //std::cout<<s<<std::endl; //testing
+		//receiver1.sendingPacket("192.168.137.194",writable);
+		receiver *rec=new receiver("127.0.0.1",writable);
+		delete rec;
+		delete[] writable;
 
-        //print block data
-        UNIVERSUM.lastBlock().blockData();
-    }
+		//packetFile.open(PFLoc.c_str(),std::ios_base::app | std::ios_base::in);
+		//packetFile<<packet<<'\n';
+		//packetFile.close();
 
-    return 0;
+		//current->sendingPacket(packet);
+
+		//std::string s=blockChain.back().joinToString();
+		//std::cout<<s<<std::endl; //testing
+	}
+
+	return 0;
 }

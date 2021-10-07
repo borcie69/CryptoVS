@@ -14,9 +14,9 @@ class cudaMiner
 	std::string toMine;
 	std::string finishedHash;
 
-	public:
-		cudaMiner(std::string);
-		void doCuda();
+public:
+	cudaMiner(std::string);
+	void doCuda();
 };
 
 

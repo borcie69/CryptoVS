@@ -11,7 +11,7 @@ server::server()
 
 	if((iResultS=getaddrinfo(NULL,DEFAULT_PORT,&hints,&result))!=0)
 	{
-		printf("getaddrinfo failed: %d\n", iResultS);
+		printf("getaddrinfo failed: %d\n",iResultS);
 		WSACleanup();
 		//add error to error system
 	}
@@ -47,7 +47,7 @@ server::server()
 }
 
 //acepting loop for thread
-void server::acceptingClient()
+void server::acceptingClient(bool *sharedForListening)
 {
 	while(true)
 	{
@@ -62,41 +62,48 @@ void server::acceptingClient()
 			//add error to error system
 		}
 
-		
-		do {
-			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-			if (iResult > 0) {
-				printf("Bytes received: %d\n", iResult);
+
+		*sharedForListening=true;
+		do
+		{
+			iResultS=recv(ClientSocket,recvbuf,recvbuflen,0);
+			if(iResultS>0)
+			{
+				printf("Bytes received: %d\n",iResultS);
 
 				// Echo the buffer back to the sender
-				iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-				if (iSendResult == SOCKET_ERROR) {
-					printf("send failed with error: %d\n", WSAGetLastError());
+				iSendResult=send(ClientSocket,recvbuf,iResultS,0);
+				if(iSendResult==SOCKET_ERROR)
+				{
+					printf("send failed with error: %d\n",WSAGetLastError());
 					closesocket(ClientSocket);
 					WSACleanup();
 					//add error to error system
 				}
-				printf("Bytes sent: %d\n", iSendResult);
+				printf("Bytes sent: %d\n",iSendResult);
 			}
-			else if (iResult == 0)
+			else if(iResultS==0)
 				printf("Connection closing...\n");
-			else {
-				printf("recv failed with error: %d\n", WSAGetLastError());
+			else
+			{
+				printf("recv failed with error: %d\n",WSAGetLastError());
 				closesocket(ClientSocket);
 				WSACleanup();
 				//add error to error system
 			}
 
-		} while (iResult > 0);
+		}
+		while(iResultS>0);
+		*sharedForListening=false;
 
 		//close server sending
-		if((iResultS=shutdown(ClientSocket,SD_SEND))==SOCKET_ERROR)
+		/*if((iResultS=shutdown(ClientSocket,SD_SEND))==SOCKET_ERROR)
 		{
 			printf("shutdown failed: %d\n",WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
 			//add error to error system
-		}
+		}*/
 
 		//clean client socket
 		closesocket(ClientSocket);
@@ -104,7 +111,10 @@ void server::acceptingClient()
 	}
 }
 
-std::thread server::threadForListening()
+std::thread server::threadForListening(bool *sharedForListening)
 {
-	return std::thread([=]{acceptingClient();});
+	return std::thread([=]
+	{
+		acceptingClient(sharedForListening);
+	});
 }

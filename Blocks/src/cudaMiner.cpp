@@ -2,6 +2,7 @@
 
 #ifdef CUDA_MINING
 
-cudaMiner::cudaMiner(std::string x):toMine(x){}
+cudaMiner::cudaMiner(std::string x):toMine(x)
+{}
 
 #endif

@@ -10,17 +10,17 @@
 #pragma comment (lib, "Mswsock.lib")
 
 //define default port
-#define DEFAULT_PORT "54839"
-constexpr short DEFAULT_BUFLEN = 512;
+constexpr char DEFAULT_PORT[6]="54839";
+constexpr short DEFAULT_BUFLEN=512;
 
 class winsockInit
 {
-	protected:
-		WSADATA wsaData;
-		int iResult;
+protected:
+	WSADATA wsaData;
+	int iResult;
 
-	public:
-		winsockInit();
+public:
+	winsockInit();
 };
 
 #endif

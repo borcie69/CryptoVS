@@ -6,12 +6,12 @@
 
 class blockChain
 {
-    std::vector<block> allBlocks;
+	std::vector<block> allBlocks;
 
 public:
-    blockChain();
-    block lastBlock();
-    void newBlock();
+	blockChain();
+	block lastBlock();
+	void newBlock();
 };
 
 //continue
