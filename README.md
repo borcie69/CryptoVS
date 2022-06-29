@@ -1,0 +1,1 @@
+Unfinished cryptocurrency project
